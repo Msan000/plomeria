@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Calculator, FileText, ClipboardCheck, Wrench, BookOpen, Lock, ChevronRight, Instagram, GraduationCap } from 'lucide-react';
+import { Calculator, FileText, ClipboardCheck, Wrench, BookOpen, Lock, ChevronRight, Instagram, GraduationCap, X, Heart } from 'lucide-react';
 import { AppTab } from './types';
 import PriceCalculator from './components/PriceCalculator';
 import BudgetGenerator from './components/BudgetGenerator';
@@ -13,6 +13,7 @@ const App: React.FC = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [pinInput, setPinInput] = useState('');
   const [loginError, setLoginError] = useState(false);
+  const [showPopup, setShowPopup] = useState(false);
 
   // Persistent navigation state
   useEffect(() => {
@@ -27,6 +28,23 @@ const App: React.FC = () => {
       setIsAuthenticated(true);
     }
   }, []);
+
+  // Popup Timer Logic
+  useEffect(() => {
+    if (isAuthenticated) {
+      // Check if popup has already been shown in this session
+      const hasShown = sessionStorage.getItem('mps_popup_shown');
+      
+      if (!hasShown) {
+        const timer = setTimeout(() => {
+          setShowPopup(true);
+          sessionStorage.setItem('mps_popup_shown', 'true');
+        }, 15000); // 15 seconds
+
+        return () => clearTimeout(timer);
+      }
+    }
+  }, [isAuthenticated]);
 
   const handleTabChange = (tab: AppTab) => {
     setActiveTab(tab);
@@ -68,6 +86,7 @@ const App: React.FC = () => {
             <Lock className="w-8 h-8 text-white" />
           </div>
           <h1 className="text-2xl font-bold text-slate-800 mb-2">Maestro Plomero</h1>
+          <p className="text-blue-600 font-bold tracking-widest text-xs mb-6 uppercase">Suite 2026</p>
           <p className="text-slate-500 mb-6 text-sm">Ingrese su PIN de acceso para continuar</p>
           
           <form onSubmit={handleLogin} className="space-y-4">
@@ -100,8 +119,47 @@ const App: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-900 pb-24 md:pb-0 font-inter">
+    <div className="min-h-screen bg-slate-50 text-slate-900 pb-24 md:pb-0 font-inter relative">
       
+      {/* 15-Second Popup */}
+      {showPopup && (
+        <div className="fixed inset-0 bg-black/60 z-[100] flex items-center justify-center p-4 backdrop-blur-sm animate-in fade-in duration-300">
+          <div className="bg-white rounded-2xl p-6 max-w-sm w-full shadow-2xl relative animate-in zoom-in-95 duration-300 border-t-4 border-pink-500">
+            <button 
+              onClick={() => setShowPopup(false)} 
+              className="absolute top-4 right-4 text-slate-400 hover:text-slate-600 transition-colors"
+            >
+              <X className="w-5 h-5" />
+            </button>
+            
+            <div className="text-center">
+              <div className="bg-pink-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 animate-bounce">
+                <Heart className="w-8 h-8 text-pink-500 fill-pink-500" />
+              </div>
+              
+              <h3 className="text-xl font-bold text-slate-800 mb-2">¡Gracias por tu compra!</h3>
+              <p className="text-slate-600 text-sm mb-6 leading-relaxed">
+                Esperamos que la <strong>Suite 2026</strong> sea tu mejor herramienta en la obra. Estamos creando más contenido exclusivo para vos.
+              </p>
+              
+              <a 
+                href="https://instagram.com/nubeeducativa"
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => setShowPopup(false)}
+                className="block w-full bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white font-bold py-3 rounded-xl shadow-lg transition-all transform hover:scale-105"
+              >
+                <div className="flex items-center justify-center gap-2">
+                  <Instagram className="w-5 h-5" />
+                  Seguir a @nubeeducativa
+                </div>
+              </a>
+              <p className="text-xs text-slate-400 mt-4">Novedades, cursos y tips todas las semanas.</p>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Desktop Sidebar */}
       <aside className="hidden md:flex flex-col w-64 fixed h-full bg-slate-900 text-white shadow-xl z-10 no-print">
         <div className="p-6 border-b border-slate-800">
@@ -110,8 +168,8 @@ const App: React.FC = () => {
               <Wrench className="w-6 h-6 text-white" />
             </div>
             <div>
-              <h1 className="text-lg font-bold leading-none">Maestro</h1>
-              <span className="text-sm text-blue-400 font-medium">Plomero Suite</span>
+              <h1 className="text-lg font-bold leading-none">Maestro Plomero</h1>
+              <span className="text-xs text-blue-400 font-bold tracking-widest">SUITE 2026</span>
             </div>
           </div>
         </div>
@@ -200,7 +258,8 @@ const App: React.FC = () => {
             <Wrench className="w-5 h-5 text-white" />
           </div>
           <div>
-            <h1 className="text-lg font-bold">Maestro Plomero</h1>
+            <h1 className="text-lg font-bold leading-tight">Maestro Plomero</h1>
+            <p className="text-[10px] text-blue-400 font-bold tracking-widest leading-none">SUITE 2026</p>
           </div>
         </div>
       </header>

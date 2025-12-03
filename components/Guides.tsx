@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Flame, Droplets, Calculator, ChevronDown, ChevronUp, BookOpen, AlertTriangle, CheckCircle, Thermometer, Clock, Search } from 'lucide-react';
+import { Flame, Droplets, Calculator, ChevronDown, ChevronUp, BookOpen, AlertTriangle, CheckCircle, Thermometer, Clock, Search, FileText, ClipboardCheck, Save, Smartphone } from 'lucide-react';
 
 interface GuideSection {
   id: string;
@@ -10,13 +10,99 @@ interface GuideSection {
 }
 
 const Guides: React.FC = () => {
-  const [openSection, setOpenSection] = useState<string | null>('termofusion');
+  const [openSection, setOpenSection] = useState<string | null>('manual_app');
 
   const toggleSection = (id: string) => {
     setOpenSection(openSection === id ? null : id);
   };
 
   const guides: GuideSection[] = [
+    {
+      id: 'manual_app',
+      title: 'Manual de Uso: Domina la Suite',
+      icon: Smartphone,
+      color: 'text-green-500',
+      content: (
+        <div className="space-y-8 text-slate-700">
+          <p className="text-sm font-medium">
+            Bienvenido a <strong>Maestro Plomero Suite 2026</strong>. Esta herramienta funciona como un sistema integrado. Aquí te explicamos cómo sacar el máximo provecho a cada sección.
+          </p>
+          
+          {/* Seccion Calculadora */}
+          <div className="bg-slate-50 p-5 rounded-xl border border-slate-200">
+            <h4 className="font-bold text-slate-800 flex items-center gap-2 mb-3 text-lg">
+              <div className="bg-blue-600 text-white p-1 rounded">1</div> Calculadora de Costos
+            </h4>
+            <p className="text-sm mb-3">El corazón de la app. Aquí defines cuánto cuesta realmente el trabajo.</p>
+            <ul className="space-y-3 text-sm">
+              <li className="flex gap-2 items-start">
+                <Search className="w-4 h-4 text-blue-500 mt-1 shrink-0" />
+                <span>
+                  <strong>Catálogo vs. Manual:</strong> Usa el botón "Catálogo" para buscar precios de referencia (IPS, Sigas, etc.). Si no encuentras algo, usa "+ Manual" para escribirlo tú mismo.
+                </span>
+              </li>
+              <li className="flex gap-2 items-start">
+                <div className="font-bold text-red-500 text-xs mt-1 border border-red-200 px-1 rounded">INFLACIÓN</div>
+                <span>
+                  <strong>Ajuste Global:</strong> ¿Subieron los precios un 5% hoy? No cambies uno por uno. Mueve el deslizador superior al 5% y dale a <strong>APLICAR</strong>. Esto actualizará todos los ítems de la lista instantáneamente.
+                </span>
+              </li>
+              <li className="flex gap-2 items-start">
+                <Calculator className="w-4 h-4 text-purple-500 mt-1 shrink-0" />
+                <span>
+                  <strong>Beneficio Automático:</strong> La app suma automáticamente un 15% de gastos generales (movilidad, seguro) y un 10% de ganancia neta. El "Precio Sugerido" es lo que deberías cobrar para ser rentable.
+                </span>
+              </li>
+            </ul>
+          </div>
+
+          {/* Seccion Presupuesto */}
+          <div className="bg-slate-50 p-5 rounded-xl border border-slate-200">
+             <h4 className="font-bold text-slate-800 flex items-center gap-2 mb-3 text-lg">
+              <div className="bg-blue-600 text-white p-1 rounded">2</div> Generador de Presupuestos
+            </h4>
+            <p className="text-sm mb-3">Transforma tus cálculos en un documento PDF profesional.</p>
+            <ol className="list-decimal pl-5 space-y-2 text-sm">
+               <li>
+                 <strong>Importación Inteligente:</strong> No escribas dos veces. Arriba a la derecha tienes un botón <span className="font-bold text-slate-600">Importar Costos</span>. Al tocarlo, trae todo lo que calculaste en la pestaña anterior.
+               </li>
+               <li>
+                 <strong>Personalización:</strong> Toca el recuadro "Logo Empresa" para subir tu imagen desde el celular. Completa tus datos una sola vez; la app los recordará.
+               </li>
+               <li>
+                 <strong>Modo WhatsApp:</strong> El botón verde genera un mensaje de texto automático con el saludo al cliente y el total, listo para enviar.
+               </li>
+               <li>
+                 <strong>PDF / Imprimir:</strong> El botón azul abre la vista de impresión del sistema. Desde allí puedes "Guardar como PDF" para enviarlo por mail.
+               </li>
+            </ol>
+          </div>
+
+          {/* Seccion Checklist */}
+          <div className="bg-slate-50 p-5 rounded-xl border border-slate-200">
+             <h4 className="font-bold text-slate-800 flex items-center gap-2 mb-3 text-lg">
+              <div className="bg-blue-600 text-white p-1 rounded">3</div> Checklist de Seguridad
+            </h4>
+            <p className="text-sm mb-3">Tu respaldo legal ante la ART y el cliente.</p>
+            <ul className="space-y-2 text-sm">
+               <li>• <strong>Dos Modos:</strong> Usa "Obra Nueva" para instalaciones completas (exige casco, botines, disyuntor) o "Reparación" para urgencias (exige corte de agua y electricidad).</li>
+               <li>• <strong>Puntos Críticos:</strong> Los ítems marcados como <span className="text-red-500 font-bold text-xs">OBLIGATORIO</span> no deben ignorarse bajo ningún concepto.</li>
+               <li>• <strong>Respaldo:</strong> Al finalizar, imprime o guarda el PDF. Si hay un accidente, este documento prueba que verificaste la seguridad antes de empezar.</li>
+            </ul>
+          </div>
+
+          <div className="bg-blue-50 p-4 rounded-lg border border-blue-100 flex gap-3">
+             <Save className="w-5 h-5 text-blue-600 shrink-0" />
+             <div>
+                <h5 className="font-bold text-blue-800 text-sm">Guardado Automático</h5>
+                <p className="text-xs text-blue-700">
+                  No necesitas crear cuenta. Todo lo que escribes se guarda en la memoria de tu teléfono/navegador. Si cierras la app y vuelves mañana, tus precios y datos seguirán ahí (mientras no borres el historial de navegación).
+                </p>
+             </div>
+          </div>
+        </div>
+      )
+    },
     {
       id: 'termofusion',
       title: 'Termofusión: Guía Completa y Profesional',
@@ -174,35 +260,6 @@ const Guides: React.FC = () => {
              <AlertTriangle className="w-5 h-5 text-yellow-600 shrink-0" />
              <p><strong>Recuerda:</strong> Una mancha de humedad no siempre indica la fuga exacta. El agua corre por las carpetas y puede aparecer metros más allá de la rotura real.</p>
           </div>
-        </div>
-      )
-    },
-    {
-      id: 'calculator',
-      title: 'Cómo usar la Calculadora de Precios',
-      icon: Calculator,
-      color: 'text-green-500',
-      content: (
-        <div className="space-y-4 text-slate-700">
-          <p>Esta herramienta está diseñada para no perder dinero por inflación ni por olvidar costos ocultos.</p>
-          
-          <ol className="list-decimal pl-5 space-y-3 text-sm">
-            <li>
-                <strong>Carga de Materiales:</strong> Usa el botón <span className="bg-blue-600 text-white text-[10px] px-1.5 py-0.5 rounded">Catálogo</span> para precios rápidos actualizados. Si el precio cambió, usa el deslizador de "Ajuste por Inflación" y dale a APLICAR.
-            </li>
-            <li>
-                <strong>Mano de Obra:</strong> No cobres "a ojo". Calcula cuántos días te llevará y multiplica por tu jornal ideal.
-            </li>
-            <li>
-                <strong>Gastos Generales (15%):</strong> La app agrega esto automáticamente. Cubre nafta, desgaste de herramientas, seguro, celular y días de lluvia.
-            </li>
-            <li>
-                <strong>Beneficio (10%):</strong> Es tu ganancia neta para crecimiento de la empresa, no para vivir.
-            </li>
-            <li>
-                <strong>Exportar:</strong> Al finalizar, dale a "Crear Presupuesto" para llevar todos los datos a una hoja lista para imprimir.
-            </li>
-          </ol>
         </div>
       )
     }
