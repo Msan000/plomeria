@@ -1,0 +1,5 @@
+{
+  "name": "Maestro Plomero Suite",
+  "description": "Herramienta integral para plomeros y gasistas en Argentina. Calcula costos, genera presupuestos y gestiona checklists de seguridad. Diseño mobile-first.",
+  "requestFramePermissions": []
+}
